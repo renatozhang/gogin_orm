@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>hello</title>
+</head>
+<body>
+       <p> Name: {{- .u1.Name -}}</p>
+     <p> Gender: {{ .u1.Gender }}</p>
+     <p> Age {{ .u1.Age }}</p>
+     <br>
+     <p> Name: {{ .m1.name }}</p>
+     <p> Gender: {{ .m1.gender }}</p>
+     <p> Age {{ .m1.age }}</p>
+     <hr>
+     {{ $v1:=100 }}
+     {{ $age:=.m1.age }}
+
+     <hr>
+     {{ if $v1 }}
+     {{ $v1 }} 
+     {{ else }}
+     啥都没有
+     {{ end }}
+    <hr>
+    {{ if lt .m1.age 22 }}
+    好好上学
+    {{ else }}
+    好好工作
+    {{ end }} 
+<hr>
+{{ range $idx,$hobby:= .hobby }}
+<p>idx: {{ $idx }} - {{ $hobby }} </p>
+{{ end }}
+
+<hr>
+{{ range .hobby }}
+{{ else }}
+没啥爱好
+<p>{{ . }} </p>  
+{{ end }}
+<hr>
+{{ with .m1 }}
+<p> Name: {{ .name }}</p>
+     <p> Gender: {{ .gender }}</p>
+     <p> Age {{ .age }}</p>
+{{ end }}
+    <hr>
+    {{ index .hobby 2}}
+</body>
+</html>
