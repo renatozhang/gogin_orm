@@ -21,7 +21,7 @@ type Model struct {
 type User struct {
 	gorm.Model                 //内嵌gorm.Model
 	Name         string        `gorm:"size:255"`
-	Age          sql.NullInt64 //零值类型
+	Age          sql.NullInt64 `gorm:"column:user_age"` //零值类型
 	Birthday     *time.Time
 	Email        string  `gorm:"type:varchar(100);uniqueIndex"`
 	Role         string  `gorm:"size:255"`        // 设置字段大小为255
@@ -43,6 +43,10 @@ type Animal struct {
 
 func main() {
 	// &gorm.Config{NamingStrategy: schema.NamingStrategy{SingularTable: true}, 表明不加s
+	// TablePrefix: "t_",   // table name prefix, table for `User` would be `t_users`
+	// db, err := gorm.Open(mysql.Open("root:123456@tcp(127.0.0.1:3306)/db1?charset=utf8mb4&parseTime=True&loc=Local"), &gorm.Config{
+	// 	NamingStrategy: schema.NamingStrategy{SingularTable: true, TablePrefix: "t_"},
+	// })
 	db, err := gorm.Open(mysql.Open("root:123456@tcp(127.0.0.1:3306)/db1?charset=utf8mb4&parseTime=True&loc=Local"), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{SingularTable: true},
 	})
@@ -50,7 +54,11 @@ func main() {
 		fmt.Printf("connection database failed, err:%v\n", err)
 		return
 	}
-
 	// db.AutoMigrate(&User{})
-	db.AutoMigrate(&Animal{})
+	// db.AutoMigrate(&Animal{})
+	// 使用User结构体创建名为`deleted_users`的表
+	// db.Table("deleted_users").AutoMigrate(&User{})
+
+	db.AutoMigrate(&User{})
+
 }
